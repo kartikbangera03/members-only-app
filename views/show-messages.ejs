@@ -1,0 +1,28 @@
+<div class="allMessages">
+    <div class="pageHeading">Messages</div>
+    <% for(let i=messages.length-1 ; i>=0 ; i--) {%>
+
+        <div class="eachMessage">
+            <div class="messageTitle">
+                <div class="messageHeading"><%= messages[i].title %></div>
+             
+                <% if (user && user.admin) {%>
+                    <div> <a href="/<%= messages[i].id%>/delete"><i class="fa fa-trash-o" style="font-size:20px"></i></a></div>
+                <% } %>
+                
+            </div>
+            <% const options = { weekday:"short", month:"short", year:"numeric", day:"numeric",hour:"numeric",minute:"numeric"}%>
+            <div class="messageDescription"><%= messages[i].post%></div>
+            <% if (user && (user.member || user.admin)) {%>
+                <div class="messageAuthorAndTimestamp"> By <%= messages[i].firstname +" "+messages[i].lastname%> On  <%= new Date(messages[i].added).toLocaleString("en-US", options) %></div>
+            <% } %>
+            
+    
+        </div>    
+    <%}%>
+    <% if (messages.length===0) {%>
+        <div>No Messages Exists</div>
+    <% } %>
+</div>
+
+

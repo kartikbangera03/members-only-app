@@ -1,3 +1,5 @@
+
+
 <html>
     <head>
         <%- include('./titleAndCssLink',{title:title}); %>
@@ -5,20 +7,22 @@
     <body>
         <%- include("header.ejs",{user:user})%> 
         <div class="mainContainer">
+            <% if (user) {%>
             <div class="formPages">
-                <div class="pageHeading">Log In</div>
+                <div class="pageHeading">Create New Message</div>
                 <form action="" method="POST">
-        
-                    <input id="username" name="username" type="username" placeholder="Email Address" />
 
-                    <input id="password" name="password" type="password" placeholder="Password"/>
-        
-                    <button>Log In</button>
+                    <input id="title" name="title" type="title" placeholder="Title"/>
+
+                    <textarea name="post" id="" cols="30" rows="10" placeholder="Description"></textarea>
+
+                    <button>Add New Message</button>
         
                     <%- include("./errors.ejs") %>
         
                 </form>
-            </div> 
+            </div>
+            <% }%>
         </div>
     </body>
 </html>

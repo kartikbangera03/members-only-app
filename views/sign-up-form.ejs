@@ -1,40 +1,35 @@
 <html>
     <head>
-        <meta charset="UTF-8">
-        <title>Sign-Up Form</title>
+        <%- include('./titleAndCssLink',{title: title || "Members-Only"}); %>
     </head>
     <body>
-        <h3>Sign Up</h3>
-        <form action="" method="POST">
 
-            <label for="firstname">First Name</label><br>
-            <input id="firstname" name="firstname" type="text" />
-            <br>
-            <label for="lastname">Last Name</label><br>
-            <input id="lastname" name="lastname" type="text" />
+        <%- include("header.ejs",{user:user})%> 
+        <div class="mainContainer">
+            <div class="formPages">
+                <div class="pageHeading">Sign Up</div>
+                <form action="" method="POST">
+    
+                    <input id="firstname" name="firstname" type="text" placeholder="First Name"/>
+                    <input id="lastname" name="lastname" type="text" placeholder="Last Name"/>
+                    <input id="userEmail" name="userEmail" type="email" placeholder="Email Address"/>
+                    <input id="password" name="password" type="password" placeholder="Password"/>
+                    <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Confirm Password"/>
+                    
+                    
+                    <div class="checkBoxDiv">
+                        <label for="isAdmin">Admin</label>
+                        <input id="isAdmin" name="isAdmin" type="checkbox" >
+                    </div>
+                    
+                    <button>Sign Up</button>
+    
+                <%- include("./errors.ejs") %>
+    
+                </form>
+            </div>
+        
 
-            <br>
-            <label for="userEmail">Email</label><br>
-            <input id="userEmail" name="userEmail" type="email" />
-
-            <br>
-            <label for="password">Password</label><br>
-            <input id="password" name="password" type="password" />
-
-            <br>
-            <label for="confirmPassword">Confirm Password</label><br>
-            <input id="confirmPassword" name="confirmPassword" type="password" />
-            
-            <br>
-            <input id="isAdmin" name="isAdmin" type="checkbox" >
-            <label for="isAdmin">Admin</label>
-
-            <br><br>
-            <button>Sign Up</button>
-
-            <%- include("./errors.ejs") %>
-
-        </form>
-
+        </div>
     </body>
 </html>

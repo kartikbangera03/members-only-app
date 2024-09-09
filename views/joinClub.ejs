@@ -1,29 +1,32 @@
+
 <html>
+    <head>
+        <%- include('./titleAndCssLink',{title:title}); %>
+    </head>
     <body>
+        <%- include("header.ejs",{user:user})%> 
+     
+        <div class="mainContainer">
+            <% if (user)  {%>
 
-
-        <% if (user)  {%>
-
-            <% if (user.member)  {%>
-                <h2>You're already a member</h2>
-                <% }else{ %>
-                    <h1>User Not Member</h1>
-            <form  method="POST">
-                <label for="secretCode"> Enter the Secred Code : 
-                    <input type="password" for="secretCode" name="secretCode" placeholder="Secret Code is 4657">
-                </label>
-                <br>
-                <button>Join Club</button>
-            </form>
-                    <% } %>
+                <% if (user.member) { %>
+                    <h2>You're already a member</h2>
             
-          <% }else{ %>
-            <h2>You need to be logged in to become a member</h2>
-            <br>
-            <a href="/sign-up">Sign Up</a>
-            <br>
-            <a href="/log-in">Log In</a>
-          <% } %>
-        
+                <% }else{ %>        
+                    <div class="formPages">
+                        <div class="pageHeading">Become a Member</div>
+                        <form  method="POST">
+                            <label for="secretCode"> Enter the Secred Code : 
+                                <input type="password" for="secretCode" name="secretCode" placeholder="Secret Code is 4657">
+                            </label>
+                            <button>Join Club</button>
+                            <%- include("./errors.ejs") %>
+                        </form>
+                    </div>
+           
+                    
+                <% } %>
+                <% } %>
+        </div>
     </body>
 </html>

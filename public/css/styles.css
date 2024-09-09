@@ -1,0 +1,223 @@
+* {
+ box-sizing: border-box;
+}
+
+@font-face {
+    font-family: logoHeadingFont;
+    src: url(../fonts/Roboto-Black.ttf);
+}
+
+@font-face {
+    font-family: bodyFont;
+    src: url(../fonts/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: RobotoItalic;
+    src: url(../fonts/Roboto-Italic.ttf);
+}
+
+@font-face {
+    font-family: RobotoNormal;
+    src: url(../fonts/Roboto-Light.ttf);
+}
+
+body{
+    padding: 0;
+    margin: 0;
+    background-color: rgb(240,240,240);
+    font-family: bodyFont;
+    padding-bottom: 50px;
+}
+
+a{
+    text-decoration: none;
+    color: black;   
+}
+li{
+    color: red;
+}
+
+a:hover{
+    color: grey;
+}
+
+.header , .headerRight , .messageTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header{
+    padding: 0 30px;
+    height: 70px;
+    justify-content: center;
+    border-bottom: 1px solid lightgray;
+    background-color: #fff;
+
+}
+
+.headerContainer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 1000px;
+    /* background-color: aqua; */
+}
+
+.headerRight{
+    gap: 20px;
+}
+
+.greenHighlightDiv{
+    background-color: green;
+    padding: 10px 15px;
+    border-radius: 5px;
+    
+}
+
+.blueHighlightDiv{
+    background-color: royalblue;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.greenHighlightDiv a{
+    color: #fff;
+    font-weight: bold;
+}
+
+.blueHighlightDiv a{
+    color: #fff;
+    font-weight: bold;
+}
+
+.mainContainer{
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+
+}
+
+.allMessages{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.eachMessage{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #fff;
+    border: 1px solid lightgrey;
+    box-shadow: 2px 2px 10px 2px lightgray;
+    border-radius: 10px;
+    padding: 15px 20px;
+    width: 700px;
+}
+
+
+.messageTitle{
+    /* height: 30px; */
+    margin-bottom: 2px solid gray;
+}
+.messageHeading{
+    font-weight: bold;
+    font-size: 18px;
+    padding-right: 20px;
+
+}
+.messageDescription{
+    font-family: RobotoNormal;
+    padding-top: 10px;
+    border-top: 1px solid lightgray;
+}
+
+.messageAuthorAndTimestamp{
+    font-size: 13px;
+    font-family: RobotoItalic;
+    padding-top: 5px;
+    border-top: 1px solid lightgray;
+
+}
+
+.userLoginStatus{
+    font-size: 13px;
+    border-top: 1px solid lightgray;
+    font-family: RobotoItalic;
+    margin-top: 5px;
+    padding-top: 5px;
+}
+
+.formPages{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pageHeading{
+    /* background-color: purple; */
+    /* text-align: center; */
+    font-size: 24px;
+    font-family: logoHeadingFont;
+}
+
+form{
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px 2px lightgray;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background-color: #fff;
+    width: 440px;
+}
+
+input , textarea{
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    height: 50px;
+    padding-left: 10px;
+    text-align:left;
+}
+
+textarea{
+    height: 100px;
+    font-family: bodyFont;
+}
+
+input:focus ,  textarea:focus{
+    outline: none;
+    outline: 1px solid dodgerblue;
+}
+
+
+
+.logoHeading{
+    font-family: logoHeadingFont ;
+    font-size: 30px;
+    
+}
+
+.logoHeading a{
+    color: dodgerblue;
+}
+
+button{
+    background-color: dodgerblue;
+    color: white;
+    outline: 1px solid dodgerblue;
+    border: none;
+    height: 50px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-family: logoHeadingFont;
+}
+
+.checkBoxDiv{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}

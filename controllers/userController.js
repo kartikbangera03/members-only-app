@@ -53,10 +53,61 @@ const validateSignUpForm = [
 ]
 
 
+const validateLogInForm = [
+
+    body("username")
+    .trim()
+    .notEmpty()
+    .withMessage("Email cannot be empty")
+    .isEmail()
+    .withMessage("Please Enter the Email Address used while Signup")
+    .custom(async(value,{req})=>{
+        const user = await db.getUserByEmail(req.body.username)
+        if(!user){
+            throw new Error("Invalid User Email")
+        }
+    }),
+
+    body("password")
+    .notEmpty()
+    .withMessage("Password cannot be empty")
+    .custom(async(value,{req})=>{
+        const user = await db.getUserByEmail(req.body.username);
+        if(!user){
+            throw new Error("Check User Email")
+        }
+        const match = await bcrypt.compare(req.body.password , user.password );
+        if(user && !match){
+            throw new Error("Wrong Password")
+        }
+    }) 
+]
+
+
+const validateCreateNewForm = [
+    body("title")
+    .trim()
+    .notEmpty()
+    .withMessage("Title cannot be empty")
+    .isLength({max:255})
+    .withMessage("Lastname too long"),
+
+    body("post")
+    .notEmpty()
+    .withMessage("Description cannot be empty")
+]
+
+const validationJoinClubForm = [
+    body("secretCode")
+    .trim()
+    .notEmpty()
+    .withMessage("Secret Code Cannot be Empty")
+]
+
 
 
 exports.getSignUpForm = asyncHandler(async(req,res)=>{
-    res.render("sign-up-form",{})
+    res.render("sign-up-form",{user: req.user ,title : "Sign Up"})
     // res.send("Sign Up Form Here");
 })
 
@@ -81,7 +132,7 @@ exports.postInsertUser = [
                     return next(err)
                 }
                 await db.insertUser(userEmail , firstname , lastname , isAdmin==='on' ? true : false , hashedPassword)                
-                res.redirect("/");
+                res.redirect("/log-in");
               });
         } catch(err) {
             return next(err);
@@ -92,21 +143,44 @@ exports.postInsertUser = [
 
 
 exports.getHomepage = asyncHandler(async(req,res)=>{
-    console.log(req)
-    res.render("homepage", { user: req.user });
+    // console.log(req)
+
+    const messages = await db.getAllMessages();
+    // console.log("Messages Received....")
+    // console.log(messages);
+    res.render("homepage", { user: req.user, messages: messages , title:"Members Only" });
 })
 
 exports.getLoginForm = asyncHandler(async(req,res)=>{
-    console.log(req)
-    res.render("login-form")
+    // console.log(req)
+    res.render("login-form",{user: req.user,title : "Log In"})
 })
 
 
-exports.postLoginForm = 
+exports.postLoginForm = [
+    validateLogInForm ,  
+
+    asyncHandler(async(req,res,next)=>{
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()){
+            return res.render("login-form",{
+                errors : errors.array(),
+                user: req.user,
+                title : "Log In"
+            })
+        }else{
+            next();
+        }
+        
+    }),
+
     passport.authenticate("local", {
         successRedirect: "/",
         failureRedirect: "/"
     })
+]
+    
 
 exports.logOut = (req, res, next) => {
     console.log(req)
@@ -119,18 +193,62 @@ exports.logOut = (req, res, next) => {
   }
     
 exports.getMembershipForm = asyncHandler(async(req,res)=>{
-    res.render("joinClub",{ user: req.user });
+    console.log("IN GET MEMBERSHIP FORM")
+    res.render("joinClub",{ user: req.user , title : "Become Member"});
 })
 
-exports.postMembershipForm = asyncHandler(async(req,res)=>{
-    console.log("JOIN CLUB")
-    console.log(req.body.secretCode)
-    console.log("USER REQ OBJECT")
-    console.log(req.user.id);
-    if(req.body.secretCode === "4567" ){
-        console.log("USER REQ OBJECT")
+exports.postMembershipForm = [
+    validationJoinClubForm,
+    asyncHandler(async(req,res)=>{
+
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()){
+            return res.render("joinClub",{ errors : errors.array() , user: req.user , title : "Become Member"})
+        }
+
+        // console.log("JOIN CLUB")
+        // console.log(req.body.secretCode)
+        // console.log("USER REQ OBJECT")
+        // console.log(req.user.id);
+        if(req.body.secretCode === "4567" ){
+            console.log("USER REQ OBJECT")
+            console.log(req.user.id);
+            await db.makeUserMember(req.user.id);
+        }
+        res.redirect("/");
+    })
+
+]
+
+
+
+exports.getCreateMessageForm = asyncHandler(async(req,res)=>{
+    res.render("create-message-form", { user: req.user , title:"Create New Message" })
+})
+
+exports.postCreateMessageForm = [
+    validateCreateNewForm,
+    asyncHandler(async(req,res)=>{
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()){
+            return res.render("create-message-form", { errors : errors.array() , user: req.user , title:"Create New Message" })
+        }
+
+        const {title , post } = req.body;
+    
+        console.log(title)
+        console.log(post)
         console.log(req.user.id);
-        await db.makeUserMember(req.user.id);
-    }
-    res.render("homepage",{ user: req.user });
+        console.log(Date.now())
+        await db.insertNewMessage(req.user.id ,title , post)
+        res.redirect("/")
+    })
+] 
+
+
+exports.deleteMessage = asyncHandler(async(req,res)=>{
+    await db.deleteMessageById(req.params.messageId)
+    res.redirect("/")
 })
