@@ -131,7 +131,7 @@ exports.postInsertUser = [
                 if(err){
                     return next(err)
                 }
-                await db.insertUser(userEmail , firstname , lastname , isAdmin==='on' ? true : false , hashedPassword)                
+                await db.insertUser(userEmail , firstname , lastname , isAdmin==='on' ? true : false ,hashedPassword)                
                 res.redirect("/log-in");
               });
         } catch(err) {
@@ -185,7 +185,7 @@ exports.logOut = (req, res, next) => {
       res.redirect("/");
     });
   }
-  
+
     
 exports.getMembershipForm = asyncHandler(async(req,res)=>{
     res.render("joinClub",{ user: req.user , title : "Become Member"});
@@ -201,7 +201,8 @@ exports.postMembershipForm = [
             return res.render("joinClub",{ errors : errors.array() , user: req.user , title : "Become Member"})
         }
 
-        if(req.body.secretCode === "4567" ){
+        if(req.body.secretCode == '4567' ){
+            console.log("Code Is Correct")
             await db.makeUserMember(req.user.id);
         }
         res.redirect("/");

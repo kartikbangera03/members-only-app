@@ -191,6 +191,7 @@ textarea{
 input:focus ,  textarea:focus{
     outline: none;
     outline: 1px solid dodgerblue;
+    font-family: bodyFont;
 }
 
 

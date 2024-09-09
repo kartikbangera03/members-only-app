@@ -5,7 +5,7 @@
         <% if (user) {%>
             <div class="headerRight">
                 <div class="greenHighlightDiv"><a href="/create-message">Create New Message</a></div>
-                <% if (!user.member) {%>
+                <% if (!user.member && !user.admin) {%>
                     <div class="blueHighlightDiv"><a href="/join-club">Become A Member</a></div>
                 <% } %>
                 <div><a href="/log-out">Log Out</a><div class="userLoginStatus"><%= user.firstname + " " +user.lastname%></div></div>

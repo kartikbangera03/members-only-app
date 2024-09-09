@@ -3,11 +3,12 @@ const pool = require("./pool");
 async function insertUser(userEmail , firstname , lastname , isAdmin, hashedPassword){
     
     
-    await pool.query("INSERT INTO users (email , firstname , lastname , admin , password) VALUES ($1, $2 , $3 , $4 , $5 )", [
+    await pool.query("INSERT INTO users (email , firstname , lastname , admin , member ,  password) VALUES ($1, $2 , $3 , $4 , $5 , $6)", [
         userEmail,
         firstname,
         lastname, 
-        isAdmin , 
+        isAdmin ,
+        false, 
         hashedPassword,
         ]);
 }
@@ -23,8 +24,8 @@ async function makeUserMember(id){
     await pool.query(`
     UPDATE users 
     SET 
-    member = true
-    WHERE id = ($1)
+    member = 't'
+    WHERE users.id = $1
     `,[id])
 }
 
