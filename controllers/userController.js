@@ -143,16 +143,11 @@ exports.postInsertUser = [
 
 
 exports.getHomepage = asyncHandler(async(req,res)=>{
-    // console.log(req)
-
     const messages = await db.getAllMessages();
-    // console.log("Messages Received....")
-    // console.log(messages);
     res.render("homepage", { user: req.user, messages: messages , title:"Members Only" });
 })
 
 exports.getLoginForm = asyncHandler(async(req,res)=>{
-    // console.log(req)
     res.render("login-form",{user: req.user,title : "Log In"})
 })
 
@@ -183,7 +178,6 @@ exports.postLoginForm = [
     
 
 exports.logOut = (req, res, next) => {
-    console.log(req)
     req.logout((err) => {
       if (err) {
         return next(err);
@@ -191,9 +185,9 @@ exports.logOut = (req, res, next) => {
       res.redirect("/");
     });
   }
+  
     
 exports.getMembershipForm = asyncHandler(async(req,res)=>{
-    console.log("IN GET MEMBERSHIP FORM")
     res.render("joinClub",{ user: req.user , title : "Become Member"});
 })
 
@@ -207,13 +201,7 @@ exports.postMembershipForm = [
             return res.render("joinClub",{ errors : errors.array() , user: req.user , title : "Become Member"})
         }
 
-        // console.log("JOIN CLUB")
-        // console.log(req.body.secretCode)
-        // console.log("USER REQ OBJECT")
-        // console.log(req.user.id);
         if(req.body.secretCode === "4567" ){
-            console.log("USER REQ OBJECT")
-            console.log(req.user.id);
             await db.makeUserMember(req.user.id);
         }
         res.redirect("/");
@@ -237,12 +225,8 @@ exports.postCreateMessageForm = [
         }
 
         const {title , post } = req.body;
-    
-        console.log(title)
-        console.log(post)
-        console.log(req.user.id);
-        console.log(Date.now())
         await db.insertNewMessage(req.user.id ,title , post)
+
         res.redirect("/")
     })
 ] 
